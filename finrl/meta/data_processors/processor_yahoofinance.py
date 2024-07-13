@@ -58,6 +58,7 @@ class YahooFinanceProcessor:
 
     def convert_interval(self, time_interval: str) -> str:
         # Convert FinRL 'standardised' time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
+        print("** time_interval ** :",time_interval)
         if time_interval in [
             "1Min",
             "2Min",
@@ -132,7 +133,7 @@ class YahooFinanceProcessor:
         print("clean_data is called...")
         tic_list = np.unique(df.tic.values)
         #NY = "America/New_York" #"Asia/Kolkata" #Overriding to Indian Markets..
-        NY = pytz.timezone("America/New_York")
+        NY = pytz.timezone("Asia/Kolkata")
         print("Time Zone:",NY)
         trading_days = self.get_trading_days(start=self.start, end=self.end)
         # produce full timestamp index
@@ -142,8 +143,8 @@ class YahooFinanceProcessor:
             times = []
             for day in trading_days:
                 #                NY = "America/New_York"
-                current_time = pd.Timestamp(day + " 09:30:00").tz_localize(NY)
-                for i in range(390):  # 390 minutes in trading day
+                current_time = pd.Timestamp(day + " 09:15:00").tz_localize(NY)
+                for i in range(375):  # 390 minutes in trading day
                     times.append(current_time)
                     current_time += pd.Timedelta(minutes=1)
         else:
@@ -164,7 +165,6 @@ class YahooFinanceProcessor:
             print('tic_df:',tic_df)
             for i in range(tic_df.shape[0]):  # fill empty DataFrame using original data!!!
                 #tmp_df.loc[tic_df.iloc[i]["timestamp"].tz_localize(NY)] = tic_df.iloc[
-                print('timestamp:::',tic_df.iloc[i]["timestamp"])
                 tmp_df.loc[tic_df.iloc[i]["timestamp"].tz_convert(NY)] = tic_df.iloc[
                     i
                 ][["open", "high", "low", "close", "volume"]]
