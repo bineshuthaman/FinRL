@@ -154,14 +154,17 @@ class YahooFinanceProcessor:
         # create a new dataframe with full timestamp series
         new_df = pd.DataFrame()
         for tic in tic_list:
+            print('Processing for:',tic)
             tmp_df = pd.DataFrame(
                 columns=["open", "high", "low", "close", "volume"], index=times
             )
             tic_df = df[
                 df.tic == tic
             ]  # extract just the rows from downloaded data relating to this tic!!
+            print('tic_df:',tic_df)
             for i in range(tic_df.shape[0]):  # fill empty DataFrame using original data!!!
                 #tmp_df.loc[tic_df.iloc[i]["timestamp"].tz_localize(NY)] = tic_df.iloc[
+                print('timestamp:::',tic_df.iloc[i]["timestamp"])
                 tmp_df.loc[tic_df.iloc[i]["timestamp"].tz_convert(NY)] = tic_df.iloc[
                     i
                 ][["open", "high", "low", "close", "volume"]]
