@@ -129,9 +129,10 @@ class YahooFinanceProcessor:
         return data_df
 
     def clean_data(self, df: pd.DataFrame) -> pd.DataFrame:
+        print("clean_data is called...")
         tic_list = np.unique(df.tic.values)
         NY = "America/New_York" #"Asia/Kolkata" #Overriding to Indian Markets..
-
+        print("Time Zone:",NY)
         trading_days = self.get_trading_days(start=self.start, end=self.end)
         # produce full timestamp index
         if self.time_interval == "1d":
