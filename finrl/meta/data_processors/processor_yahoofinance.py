@@ -131,7 +131,8 @@ class YahooFinanceProcessor:
     def clean_data(self, df: pd.DataFrame) -> pd.DataFrame:
         print("clean_data is called...")
         tic_list = np.unique(df.tic.values)
-        NY = "America/New_York" #"Asia/Kolkata" #Overriding to Indian Markets..
+        #NY = "America/New_York" #"Asia/Kolkata" #Overriding to Indian Markets..
+        NY = pytz.timezone("America/New_York")
         print("Time Zone:",NY)
         trading_days = self.get_trading_days(start=self.start, end=self.end)
         # produce full timestamp index
@@ -160,7 +161,8 @@ class YahooFinanceProcessor:
                 df.tic == tic
             ]  # extract just the rows from downloaded data relating to this tic!!
             for i in range(tic_df.shape[0]):  # fill empty DataFrame using original data!!!
-                tmp_df.loc[tic_df.iloc[i]["timestamp"].tz_localize(NY)] = tic_df.iloc[
+                #tmp_df.loc[tic_df.iloc[i]["timestamp"].tz_localize(NY)] = tic_df.iloc[
+                tmp_df.loc[tic_df.iloc[i]["timestamp"].tz_convert(NY)] = tic_df.iloc[
                     i
                 ][["open", "high", "low", "close", "volume"]]
             # print("(9) tmp_df\n", tmp_df.to_string()) # print ALL dataframe to check for missing rows from download
