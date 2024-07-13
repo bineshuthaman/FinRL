@@ -130,7 +130,7 @@ class YahooFinanceProcessor:
 
     def clean_data(self, df: pd.DataFrame) -> pd.DataFrame:
         tic_list = np.unique(df.tic.values)
-        NY = "America/New_York"
+        NY = "Asia/Kolkata" #Overriding to Indian Markets
 
         trading_days = self.get_trading_days(start=self.start, end=self.end)
         # produce full timestamp index
