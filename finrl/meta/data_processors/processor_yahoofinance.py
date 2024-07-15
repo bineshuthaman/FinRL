@@ -406,7 +406,14 @@ class YahooFinanceProcessor:
     ) -> pd.DataFrame:
         time_interval = self.convert_interval(time_interval)
 
-        end_datetime = datetime.datetime.now()
+        ist = pytz.timezone('Asia/Kolkata')
+        # Get the current time in UTC
+        utc_now = datetime.datetime.now(pytz.utc)
+        # Convert UTC time to IST
+        ist_now = utc_now.astimezone(ist)
+
+        end_datetime = ist_now
+        print('END DATE:::',end_datetime)
         start_datetime = end_datetime - datetime.timedelta(
             minutes=limit + 1
         )  # get the last rows up to limit
