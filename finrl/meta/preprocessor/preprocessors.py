@@ -292,6 +292,9 @@ class FeatureEngineer:
         # start after a year
         start = 252
         turbulence_index = [0] * start
+
+        print('LENGTH :: df_price_pivot.index:: **** ',len(df_price_pivot.index))
+        print('LENGTH :: turbulence_index:: **** ',len(turbulence_index))
         # turbulence_index = [0]
         count = 0
         for i in range(start, len(unique_date)):
