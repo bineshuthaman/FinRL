@@ -515,6 +515,7 @@ class YahooFinanceProcessor:
         latest_price = price_array[-1]
         latest_tech = tech_array[-1]
         start_datetime = end_datetime - datetime.timedelta(minutes=1)
-        turb_df = yf.download("VIXY", start_datetime, limit=1)
+        #turb_df = yf.download("VIXY", start_datetime, limit=1)
+        turb_df = yf.download("VIXY", start_datetime, end_datetime, limit=1)
         latest_turb = turb_df["Close"].values
         return latest_price, latest_tech, latest_turb
